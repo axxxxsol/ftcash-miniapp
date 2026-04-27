@@ -8,35 +8,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0D0D1A; padding: 16px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0D0D1A; padding: 16px; color: #FFFFFF; }
         .container { max-width: 500px; margin: 0 auto; }
         .card { background: #141422; border-radius: 24px; padding: 20px; margin-bottom: 16px; border: 1px solid rgba(139, 92, 246, 0.15); }
-        .header { text-align: center; padding: 28px 20px; background: linear-gradient(135deg, #1A0F2E, #0D0D1A); border-radius: 28px; margin-bottom: 20px; border: 1px solid rgba(139, 92, 246, 0.2); position: relative; }
-        .privacy-toggle { position: absolute; top: 20px; right: 20px; background: rgba(139, 92, 246, 0.2); border: none; width: 40px; height: 40px; border-radius: 20px; color: #A78BFA; font-size: 18px; cursor: pointer; }
+        .header { text-align: center; padding: 28px 20px; background: linear-gradient(135deg, #1A0F2E, #0D0D1A); border-radius: 28px; margin-bottom: 20px; border: 1px solid rgba(139, 92, 246, 0.2); }
         .logo { width: 56px; height: 56px; background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 28px; }
         h1 { font-size: 24px; font-weight: 700; color: #FFFFFF; }
         .greeting { color: #A78BFA; font-size: 14px; margin-top: 8px; }
-        .subtitle { color: #6B7280; font-size: 13px; margin-top: 4px; }
+        .subtitle { color: #9CA3AF; font-size: 13px; margin-top: 4px; }
         .tabs { display: flex; gap: 8px; margin-bottom: 20px; background: #0D0D1A; padding: 4px; border-radius: 12px; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 12px 16px; background: transparent; border: none; border-radius: 40px; font-size: 14px; font-weight: 500; color: #6B7280; cursor: pointer; white-space: nowrap; }
+        .tab-btn { flex: 1; padding: 12px 16px; background: transparent; border: none; border-radius: 40px; font-size: 14px; font-weight: 500; color: #9CA3AF; cursor: pointer; white-space: nowrap; }
         .tab-btn.active { background: #7C3AED; color: white; }
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .rate-block { text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(76, 29, 149, 0.05)); border-radius: 20px; margin-bottom: 20px; }
-        .rate-label { font-size: 12px; color: #6B7280; text-transform: uppercase; margin-bottom: 8px; }
+        .rate-label { font-size: 12px; color: #9CA3AF; text-transform: uppercase; margin-bottom: 8px; }
         .rate-value { font-size: 32px; font-weight: 700; color: #A78BFA; }
-        .rate-update { font-size: 10px; color: #4B5563; margin-top: 8px; }
+        .rate-update { font-size: 10px; color: #6B7280; margin-top: 8px; }
         .chart-container { margin-top: 16px; padding: 12px; background: #0D0D1A; border-radius: 16px; }
         canvas { max-height: 150px; width: 100%; }
         .trend-indicator { display: inline-block; margin-left: 8px; font-size: 14px; color: #FFFFFF; }
         .trend-up { color: #34D399; } .trend-down { color: #F87171; } .trend-value { color: #FFFFFF; font-weight: 500; }
         .input-group { margin-bottom: 16px; }
-        label { display: block; font-size: 13px; font-weight: 500; color: #9CA3AF; margin-bottom: 6px; }
-        input, select { width: 100%; padding: 14px 16px; background: #0D0D1A; border: 1px solid #2D2D3A; border-radius: 14px; color: white; font-size: 15px; }
+        label { display: block; font-size: 13px; font-weight: 500; color: #D1D5DB; margin-bottom: 6px; }
+        input, select { width: 100%; padding: 14px 16px; background: #0D0D1A; border: 1px solid #374151; border-radius: 14px; color: white; font-size: 15px; }
         input:focus, select:focus { outline: none; border-color: #8B5CF6; }
         .quick-amounts { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-        .quick-btn { background: #1A1A2E; border: 1px solid rgba(139, 92, 246, 0.2); padding: 8px 12px; border-radius: 12px; color: #A78BFA; font-size: 12px; cursor: pointer; }
+        .quick-btn { background: #1A1A2E; border: 1px solid rgba(139, 92, 246, 0.3); padding: 8px 12px; border-radius: 12px; color: #A78BFA; font-size: 12px; cursor: pointer; }
         .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #8B5CF6, #6D28D9); border: none; border-radius: 20px; color: white; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .btn-secondary { background: transparent; border: 1px solid #8B5CF6; color: #A78BFA; }
         .result-block { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 16px; margin-top: 16px; text-align: center; }
@@ -49,11 +48,12 @@
         .balance-card { background: linear-gradient(135deg, #1A0F2E, #0D0D1A); border-radius: 20px; padding: 20px; margin: 16px 0; text-align: center; border: 1px solid rgba(139, 92, 246, 0.2); }
         .balance-header { font-size: 14px; color: #9CA3AF; margin-bottom: 8px; }
         .balance-amount { font-size: 28px; font-weight: 700; color: #FFFFFF; }
-        .profile-avatar { width: 64px; height: 64px; font-size: 28px; background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 32px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+        .profile-avatar { width: 64px; height: 64px; font-size: 28px; background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 32px; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: white; }
         .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(139, 92, 246, 0.1); }
         .info-label { color: #9CA3AF; font-size: 14px; } .info-value { color: white; font-size: 14px; font-weight: 500; }
         .edit-btn { background: rgba(139, 92, 246, 0.2); border: none; padding: 6px 12px; border-radius: 20px; color: #A78BFA; font-size: 12px; cursor: pointer; }
-        .section-title { font-size: 16px; font-weight: 600; color: #A78BFA; margin-bottom: 12px; }
+        .section-title { font-size: 16px; font-weight: 600; color: #A78BFA; margin-bottom: 12px; margin-top: 20px; }
+        .section-title:first-of-type { margin-top: 0; }
         .deal-item { background: #0D0D1A; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
         .deal-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .deal-status.completed { background: rgba(16, 185, 129, 0.2); color: #34D399; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
@@ -63,13 +63,14 @@
         .faq-answer { padding: 0 12px 12px 12px; color: #9CA3AF; font-size: 13px; display: none; }
         .faq-answer.show { display: block; }
         .referral-card { background: linear-gradient(135deg, #1A0F2E, #0D0D1A); border-radius: 16px; padding: 16px; margin: 12px 0; text-align: center; border: 1px solid rgba(139, 92, 246, 0.2); }
-        .referral-code { background: #0D0D1A; padding: 12px; border-radius: 12px; font-family: monospace; font-size: 18px; letter-spacing: 2px; color: #A78BFA !important; margin: 12px 0; }
+        .referral-code { background: #0D0D1A; padding: 12px; border-radius: 12px; font-family: monospace; font-size: 18px; letter-spacing: 2px; color: #A78BFA; margin: 12px 0; }
         .stat-grid { display: flex; gap: 16px; justify-content: center; margin: 16px 0; }
-        .stat-number { font-size: 24px; font-weight: 700; color: #FFFFFF !important; }
-        .stat-label { font-size: 11px; color: #9CA3AF !important; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 24px; font-weight: 700; color: #FFFFFF; }
+        .stat-label { font-size: 11px; color: #9CA3AF; }
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: #141422; border-radius: 24px; padding: 20px; width: 100%; max-width: 320px; }
-        .alert-setting { background: #1A1A2E; border-radius: 16px; padding: 12px; margin-top: 12px; }
+        .alert-setting { background: #1A1A2E; border-radius: 16px; padding: 12px; margin-bottom: 16px; }
         .alert-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .alert-input { width: 100px; padding: 8px; background: #0D0D1A; border: 1px solid #8B5CF6; border-radius: 10px; color: white; text-align: center; }
         .toggle-switch { width: 44px; height: 24px; background: #2D2D3A; border-radius: 24px; cursor: pointer; position: relative; }
@@ -81,9 +82,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <button class="privacy-toggle" id="privacyToggle">👁️</button>
             <div class="logo">₿</div>
-            <h1 id="balanceHeader">FTCash</h1>
+            <h1>FTCash</h1>
             <div class="greeting" id="greetingText">Добро пожаловать!</div>
             <div class="subtitle">Обмен валют с прозрачной комиссией</div>
         </div>
@@ -91,7 +91,6 @@
         <div class="tabs">
             <button class="tab-btn active" data-tab="exchange">Обмен</button>
             <button class="tab-btn" data-tab="chart">График</button>
-            <button class="tab-btn" data-tab="alerts">Уведомления</button>
             <button class="tab-btn" data-tab="profile">Профиль</button>
         </div>
 
@@ -133,7 +132,7 @@
                     <label>Telegram</label>
                     <input type="text" id="telegram" placeholder="@username">
                 </div>
-                <div class="tip" id="limitTip">Минимальная сумма: 50 000 RUB | Максимальная: 50 000 000 RUB</div>
+                <div class="tip">Минимальная сумма: 50 000 RUB | Максимальная: 50 000 000 RUB</div>
                 <div class="work-hours">Офисы работают: 11:00 - 20:00</div>
                 <div id="result" style="display: none;"></div>
                 <button class="btn" id="exchangeBtn">Создать заявку</button>
@@ -150,34 +149,7 @@
                 <div class="chart-container">
                     <canvas id="rateChart" width="400" height="160"></canvas>
                 </div>
-                <div class="tip">📈 График показывает изменение курса за последние 7 дней</div>
-            </div>
-        </div>
-
-        <div id="alerts" class="tab-content">
-            <div class="card">
-                <div style="font-weight: 600; margin-bottom: 12px; color: white;">🔔 Настройка оповещений</div>
-                <div class="alert-setting">
-                    <div class="alert-row">
-                        <span style="color: #9CA3AF;">Уведомлять при курсе</span>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <input type="number" id="targetRate" class="alert-input" placeholder="85.00" step="0.01">
-                            <span style="color: #A78BFA;">RUB</span>
-                        </div>
-                    </div>
-                    <div class="alert-row">
-                        <span style="color: #9CA3AF;">Уведомления включены</span>
-                        <div class="toggle-switch" id="alertToggle"></div>
-                    </div>
-                    <div class="tip" style="margin-top: 12px; font-size: 11px;">Когда курс достигнет целевого значения, бот пришлёт вам уведомление</div>
-                </div>
-                <div class="alert-setting" style="margin-top: 12px;">
-                    <div class="alert-row">
-                        <span style="color: #9CA3AF;">Ежедневный курс в 10:00</span>
-                        <div class="toggle-switch" id="dailyToggle"></div>
-                    </div>
-                    <div class="tip" style="margin-top: 12px; font-size: 11px;">Каждый день в 10:00 будет приходить актуальный курс</div>
-                </div>
+                <div class="tip">📈 График показывает изменение курса за последние обновления</div>
             </div>
         </div>
 
@@ -188,21 +160,48 @@
                 </div>
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h3 id="userName" style="color: white;">Пользователь</h3>
-                    <p id="userTelegram" style="color: #6B7280;">@username</p>
+                    <p id="userTelegram" style="color: #9CA3AF;">@username</p>
                 </div>
+                
                 <div class="balance-card">
                     <div class="balance-header">🏆 Бонус за сделки</div>
                     <div class="balance-amount" id="bonusAmount">0 USDT</div>
                     <div class="tip" style="margin-top: 8px; font-size: 11px;">20 сделок: +100 USDT | 50: +100 | 100: +150</div>
                 </div>
+                
+                <!-- Уведомления перенесены сюда -->
+                <div class="section-title">🔔 Уведомления о курсе</div>
+                <div class="alert-setting">
+                    <div class="alert-row">
+                        <span style="color: #D1D5DB;">Уведомить при курсе</span>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <input type="number" id="targetRate" class="alert-input" placeholder="85.00" step="0.01">
+                            <span style="color: #A78BFA;">RUB</span>
+                        </div>
+                    </div>
+                    <div class="alert-row">
+                        <span style="color: #D1D5DB;">Уведомления включены</span>
+                        <div class="toggle-switch" id="alertToggle"></div>
+                    </div>
+                    <div class="tip" style="margin-top: 12px; font-size: 11px;">Когда курс достигнет целевого значения, вы получите уведомление</div>
+                </div>
+                <div class="alert-setting" style="margin-top: 12px;">
+                    <div class="alert-row">
+                        <span style="color: #D1D5DB;">Ежедневный курс в 10:00</span>
+                        <div class="toggle-switch" id="dailyToggle"></div>
+                    </div>
+                    <div class="tip" style="margin-top: 12px; font-size: 11px;">Каждый день в 10:00 будет приходить актуальный курс</div>
+                </div>
+                
                 <div class="section-title">👤 Персональные данные</div>
                 <div class="info-row"><span class="info-label">Ваше имя</span><span class="info-value" id="profileName">Пользователь</span><button class="edit-btn" onclick="editName()">Изменить</button></div>
                 <div class="info-row"><span class="info-label">Telegram</span><span class="info-value" id="profileTelegram">@username</span><button class="edit-btn" onclick="editTelegram()">Изменить</button></div>
                 <div class="info-row"><span class="info-label">Номер телефона</span><span class="info-value" id="profilePhone">Не указан</span><button class="edit-btn" onclick="editPhone()">Указать</button></div>
                 <div class="info-row"><span class="info-label">E-mail</span><span class="info-value" id="profileEmail">Не указан</span><button class="edit-btn" onclick="editEmail()">Указать</button></div>
-                <div class="section-title" style="margin-top: 20px;">🤝 Реферальная программа</div>
+                
+                <div class="section-title">🤝 Реферальная программа</div>
                 <div class="referral-card">
-                    <div style="margin-bottom: 8px; color: white;">Ваш реферальный код</div>
+                    <div style="margin-bottom: 8px;">Ваш реферальный код</div>
                     <div class="referral-code" id="referralCode">LOADING</div>
                     <button class="edit-btn" onclick="copyReferralCode()">📋 Скопировать код</button>
                     <div class="stat-grid">
@@ -210,9 +209,11 @@
                         <div class="stat-item"><div class="stat-number" id="referralEarnings">0</div><div class="stat-label">Заработано (USDT)</div></div>
                     </div>
                 </div>
+                
                 <div class="section-title">📋 Мои сделки</div>
                 <div id="dealsList"><div class="tip">У вас пока нет сделок</div></div>
-                <div class="section-title" style="margin-top: 20px;">❓ Часто задаваемые вопросы</div>
+                
+                <div class="section-title">❓ Часто задаваемые вопросы</div>
                 <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">Как происходит обмен? <span>▼</span></div><div class="faq-answer">Вы создаёте заявку, указываете город и сумму. Оператор связывается с вами для уточнения деталей.</div></div>
                 <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">Какие документы нужны? <span>▼</span></div><div class="faq-answer">Для обмена наличных необходим паспорт РФ или иностранного гражданина.</div></div>
                 <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">Как долго обрабатывается заявка? <span>▼</span></div><div class="faq-answer">Среднее время обработки — 15-30 минут в рабочее время офиса (11:00-20:00).</div></div>
@@ -236,56 +237,41 @@
         document.getElementById('greetingText').innerHTML = `${greetingText}, ${firstName}!`;
 
         let currentRate = null;
-        let privacyMode = false;
         let rateChart = null;
         let currentEditField = null;
+        let historicalRates = [];
+        let alertTriggered = false;
 
         const cities = ["Москва","Санкт-Петербург","Казань","Екатеринбург","Новосибирск","Краснодар","Сочи","Ростов-на-Дону","Нижний Новгород","Самара","Уфа","Челябинск","Пермь","Волгоград","Красноярск","Воронеж","Саратов","Тюмень","Тольятти","Ижевск","Барнаул","Ульяновск","Иркутск","Хабаровск","Ярославль","Владивосток","Махачкала"];
         const citySelect = document.getElementById('city');
         cities.forEach(city => { let opt = document.createElement('option'); opt.value = city; opt.textContent = city; citySelect.appendChild(opt); });
 
-        function generateHistoryData() {
-            const history = [];
-            const baseRate = currentRate || 85.0;
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                const variation = (Math.random() - 0.5) * 3;
-                history.push({ date: date, rate: baseRate + variation });
-            }
-            return history;
-        }
-        let weeklyHistory = generateHistoryData();
-
         function initChart() {
             const ctx = document.getElementById('rateChart').getContext('2d');
-            const labels = weeklyHistory.map(h => { const d = new Date(h.date); return `${d.getMonth()+1}/${d.getDate()}`; });
-            const rates = weeklyHistory.map(h => h.rate);
             rateChart = new Chart(ctx, {
                 type: 'line',
-                data: { labels: labels, datasets: [{ label: 'USDT/RUB', data: rates, borderColor: '#8B5CF6', backgroundColor: 'rgba(139, 92, 246, 0.1)', borderWidth: 2, tension: 0.3, fill: true, pointRadius: 4, pointBackgroundColor: '#A78BFA', pointBorderColor: '#FFFFFF' }] },
+                data: { labels: [], datasets: [{ label: 'USDT/RUB', data: [], borderColor: '#8B5CF6', backgroundColor: 'rgba(139, 92, 246, 0.1)', borderWidth: 2, tension: 0.3, fill: true, pointRadius: 4, pointBackgroundColor: '#A78BFA', pointBorderColor: '#FFFFFF' }] },
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#9CA3AF' } } }, scales: { y: { grid: { color: '#2D2D3A' }, ticks: { color: '#9CA3AF' } }, x: { ticks: { color: '#6B7280', maxRotation: 45, minRotation: 45 } } } }
             });
         }
 
         function updateChart() {
             if (!rateChart) { initChart(); return; }
-            if (weeklyHistory.length > 0 && currentRate) {
-                weeklyHistory[weeklyHistory.length - 1].rate = currentRate;
-                const rates = weeklyHistory.map(h => h.rate);
-                const labels = weeklyHistory.map(h => { const d = new Date(h.date); return `${d.getMonth()+1}/${d.getDate()}`; });
-                rateChart.data.labels = labels;
-                rateChart.data.datasets[0].data = rates;
-                rateChart.update();
-            }
-            if (weeklyHistory.length >= 2) {
-                const last = weeklyHistory[weeklyHistory.length-1].rate;
-                const prev = weeklyHistory[weeklyHistory.length-2].rate;
-                const trend = last - prev;
+            let labels = [], rates = [];
+            if (historicalRates.length > 0) {
+                labels = historicalRates.map(h => { const d = new Date(h.date); return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`; });
+                rates = historicalRates.map(h => h.rate);
+            } else if (currentRate) { labels = ['Сейчас']; rates = [currentRate]; }
+            if (currentRate && (rates.length === 0 || rates[rates.length-1] !== currentRate)) { labels.push('Сейчас'); rates.push(currentRate); }
+            rateChart.data.labels = labels;
+            rateChart.data.datasets[0].data = rates;
+            rateChart.update();
+            if (rates.length >= 2) {
+                const last = rates[rates.length-1], prev = rates[rates.length-2], trend = last - prev;
                 const trendEl = document.getElementById('trendIndicator');
-                if (trend > 0) trendEl.innerHTML = `<span class="trend-value">▲ +${trend.toFixed(2)} RUB</span> <span class="trend-up">▲ рост</span>`;
-                else if (trend < 0) trendEl.innerHTML = `<span class="trend-value">▼ ${trend.toFixed(2)} RUB</span> <span class="trend-down">▼ падение</span>`;
-                else trendEl.innerHTML = `<span class="trend-value">◼ 0 RUB</span> <span>стабильно</span>`;
+                if (trend > 0) trendEl.innerHTML = `<span class="trend-up">▲ +${trend.toFixed(2)} RUB (рост)</span>`;
+                else if (trend < 0) trendEl.innerHTML = `<span class="trend-down">▼ ${trend.toFixed(2)} RUB (падение)</span>`;
+                else trendEl.innerHTML = `<span>◼ 0 RUB (стабильно)</span>`;
             }
         }
 
@@ -295,14 +281,7 @@
             return { userId, name: firstName, telegram: username, phone: '', email: '', deals: [], completedCount: 0, bonusPaid: {20:false,50:false,100:false}, totalBonus: 0, refCode: (userId.slice(-6) || '0WNRWF').toUpperCase(), referrals: [], referralEarnings: 0 };
         }
         function saveUserData(data) { localStorage.setItem(`ftc_${userId}`, JSON.stringify(data)); }
-        function checkAndAwardBonuses(data) {
-            let bonusAmount = 0;
-            if (data.completedCount >= 20 && !data.bonusPaid[20]) { bonusAmount += 100; data.bonusPaid[20] = true; showAlert('🎉 Бонус 100 USDT за 20 успешных сделок!'); }
-            if (data.completedCount >= 50 && !data.bonusPaid[50]) { bonusAmount += 100; data.bonusPaid[50] = true; showAlert('🎉 Бонус 100 USDT за 50 успешных сделок!'); }
-            if (data.completedCount >= 100 && !data.bonusPaid[100]) { bonusAmount += 150; data.bonusPaid[100] = true; showAlert('🎉 Бонус 150 USDT за 100 успешных сделок!'); }
-            if (bonusAmount > 0) { data.totalBonus += bonusAmount; saveUserData(data); }
-            return bonusAmount;
-        }
+        
         function updateProfile() {
             let data = loadUserData();
             document.getElementById('avatarInitials').innerHTML = (data.name || 'U').substring(0,2).toUpperCase();
@@ -318,17 +297,9 @@
             document.getElementById('bonusAmount').innerHTML = (data.totalBonus || 0).toFixed(2) + ' USDT';
             const dealsDiv = document.getElementById('dealsList');
             if (!data.deals || data.deals.length === 0) dealsDiv.innerHTML = '<div class="tip">У вас пока нет сделок</div>';
-            else dealsDiv.innerHTML = data.deals.slice().reverse().map(deal => `<div class="deal-item"><div class="deal-header"><span>#${deal.id}</span><span class="deal-status ${deal.status}">${deal.status === 'completed' ? '✅ Успешно' : '⏳ В обработке'}</span></div><div style="font-size:13px;color:#9CA3AF;">${deal.direction === 'cash_to_usdt' ? `${deal.amount.toLocaleString()} RUB → ${deal.result} USDT` : `${deal.amount} USDT → ${deal.result} RUB`}<br>Город: ${deal.city}<br>${new Date(deal.date).toLocaleString()}</div></div>`).join('');
+            else dealsDiv.innerHTML = data.deals.slice().reverse().map(deal => `<div class="deal-item"><div class="deal-header"><span>#${deal.id}</span><span class="deal-status ${deal.status}">${deal.status === 'completed' ? '✅ Успешно' : '⏳ В обработке'}</span></div><div style="font-size:13px;color:#9CA3AF;">${deal.direction === 'cash_to_usdt' ? `${Number(deal.amount).toLocaleString()} RUB → ${deal.result} USDT` : `${deal.amount} USDT → ${deal.result} RUB`}<br>Город: ${deal.city}<br>${new Date(deal.date).toLocaleString()}</div></div>`).join('');
         }
-        window.updateDealStatus = function(orderId, newStatus) {
-            let data = loadUserData();
-            const deal = data.deals.find(d => d.id === orderId);
-            if (deal && deal.status !== newStatus) {
-                deal.status = newStatus;
-                if (newStatus === 'completed') { data.completedCount++; checkAndAwardBonuses(data); }
-                saveUserData(data); updateProfile();
-            }
-        };
+        
         window.editName = function() { currentEditField='name'; document.getElementById('modalTitle').innerText='Изменить имя'; document.getElementById('modalInput').value=loadUserData().name; document.getElementById('editModal').style.display='flex'; };
         window.editTelegram = function() { currentEditField='telegram'; document.getElementById('modalTitle').innerText='Изменить Telegram'; document.getElementById('modalInput').value=loadUserData().telegram; document.getElementById('editModal').style.display='flex'; };
         window.editPhone = function() { currentEditField='phone'; document.getElementById('modalTitle').innerText='Указать номер телефона'; document.getElementById('modalInput').value=loadUserData().phone; document.getElementById('editModal').style.display='flex'; };
@@ -341,9 +312,9 @@
             if (currentEditField === 'telegram') data.telegram = newValue.replace('@','');
             if (currentEditField === 'phone') data.phone = newValue;
             if (currentEditField === 'email') data.email = newValue;
-            saveUserData(data); updateProfile(); closeModal(); showAlert('Данные обновлены');
+            saveUserData(data); updateProfile(); closeModal(); showAlert('✅ Данные обновлены');
         });
-        window.copyReferralCode = function() { let code = loadUserData().refCode; navigator.clipboard.writeText(code); showAlert('Код скопирован!'); };
+        window.copyReferralCode = function() { let code = loadUserData().refCode; navigator.clipboard.writeText(code); showAlert('✅ Код скопирован!'); };
         window.toggleFAQ = function(element) { const answer = element.nextElementSibling; answer.classList.toggle('show'); };
 
         async function fetchRate() {
@@ -357,11 +328,21 @@
                     document.getElementById('rateValue').innerHTML = `1 USDT = ${currentRate.toFixed(2)} RUB`;
                     document.getElementById('rateUpdate').innerHTML = `Обновлено: ${new Date().toLocaleTimeString()}`;
                     document.getElementById('chartCurrentRate').innerHTML = `1 USDT = ${currentRate.toFixed(2)} RUB`;
+                    historicalRates.push({ date: new Date(), rate: currentRate });
+                    if (historicalRates.length > 10) historicalRates.shift();
                     updateChart();
                     if (document.getElementById('amount').value) calculate();
+                    checkAlert();
                 }
-            } catch(e) { console.error('Rate error:', e);
-                if (!currentRate) { currentRate = 85.00; document.getElementById('rateValue').innerHTML = `1 USDT = ${currentRate.toFixed(2)} RUB`; document.getElementById('chartCurrentRate').innerHTML = `1 USDT = ${currentRate.toFixed(2)} RUB`; updateChart(); }
+            } catch(e) { console.error('Rate error:', e); }
+        }
+
+        function checkAlert() {
+            const settings = loadAlertSettings();
+            if (settings.enabled && currentRate >= settings.targetRate && !alertTriggered) {
+                alertTriggered = true;
+                showAlert(`🎯 Курс достиг ${currentRate.toFixed(2)} RUB! Цель была ${settings.targetRate} RUB`);
+                setTimeout(() => { alertTriggered = false; }, 3600000);
             }
         }
 
@@ -375,13 +356,14 @@
             document.getElementById('feeDisplay').innerHTML = `Комиссия: ${fee} USDT`;
             if (direction === 'cash_to_usdt') {
                 let result = (amount / currentRate - fee).toFixed(2);
+                if (result < 0) result = 0;
                 document.getElementById('result').innerHTML = `<div class="result-block"><div>Вы получите</div><div class="result-value">${result} USDT</div><div style="font-size: 11px;">Комиссия: ${fee} USDT</div></div>`;
             } else {
                 let result = ((amount - fee) * currentRate).toFixed(2);
+                if (result < 0) result = 0;
                 document.getElementById('result').innerHTML = `<div class="result-block"><div>Вы получите</div><div class="result-value">${parseFloat(result).toLocaleString()} RUB</div><div style="font-size: 11px;">Комиссия: ${fee} USDT</div></div>`;
             }
             document.getElementById('result').style.display = 'block';
-            return null;
         }
 
         async function createOrder() {
@@ -389,10 +371,11 @@
             let city = document.getElementById('city').value;
             let amount = parseFloat(document.getElementById('amount').value);
             let telegramInput = document.getElementById('telegram').value;
-            if (!city || !amount || !telegramInput) { showAlert('Заполните все поля'); return; }
+            if (!city || !amount || !telegramInput) { showAlert('❌ Заполните все поля'); return; }
             let data = loadUserData();
             let orderId = (data.deals?.length || 0) + 1;
             let resultValue = direction === 'cash_to_usdt' ? (amount / currentRate - 12).toFixed(2) : ((amount - 10) * currentRate).toFixed(2);
+            if (resultValue < 0) resultValue = 0;
             let newOrder = { id: orderId, direction, amount, result: resultValue, city, telegram: telegramInput, status: 'pending', date: new Date().toISOString() };
             if (!data.deals) data.deals = [];
             data.deals.push(newOrder);
@@ -412,11 +395,11 @@
         }
 
         function loadAlertSettings() {
-            const settings = localStorage.getItem('alertSettings');
+            const settings = localStorage.getItem(`alert_${userId}_settings`);
             if (settings) return JSON.parse(settings);
             return { targetRate: 85, enabled: false, dailyEnabled: false };
         }
-        function saveAlertSettings(settings) { localStorage.setItem('alertSettings', JSON.stringify(settings)); }
+        function saveAlertSettings(settings) { localStorage.setItem(`alert_${userId}_settings`, JSON.stringify(settings)); }
         function initAlertUI() {
             const settings = loadAlertSettings();
             document.getElementById('targetRate').value = settings.targetRate;
@@ -424,16 +407,31 @@
             const dailyToggle = document.getElementById('dailyToggle');
             if (settings.enabled) alertToggle.classList.add('active'); else alertToggle.classList.remove('active');
             if (settings.dailyEnabled) dailyToggle.classList.add('active'); else dailyToggle.classList.remove('active');
-            alertToggle.addEventListener('click', () => { alertToggle.classList.toggle('active'); settings.enabled = alertToggle.classList.contains('active'); saveAlertSettings(settings); showAlert(settings.enabled ? 'Уведомления включены' : 'Уведомления выключены'); });
-            dailyToggle.addEventListener('click', () => { dailyToggle.classList.toggle('active'); settings.dailyEnabled = dailyToggle.classList.contains('active'); saveAlertSettings(settings); showAlert(settings.dailyEnabled ? 'Ежедневная рассылка включена' : 'Ежедневная рассылка выключена'); });
-            document.getElementById('targetRate').addEventListener('change', (e) => { settings.targetRate = parseFloat(e.target.value); saveAlertSettings(settings); showAlert(`Целевой курс установлен: ${settings.targetRate} RUB`); });
+            
+            alertToggle.addEventListener('click', () => {
+                alertToggle.classList.toggle('active');
+                settings.enabled = alertToggle.classList.contains('active');
+                saveAlertSettings(settings);
+                showAlert(settings.enabled ? '🔔 Уведомления включены' : '🔕 Уведомления выключены');
+            });
+            dailyToggle.addEventListener('click', () => {
+                dailyToggle.classList.toggle('active');
+                settings.dailyEnabled = dailyToggle.classList.contains('active');
+                saveAlertSettings(settings);
+                showAlert(settings.dailyEnabled ? '📅 Ежедневная рассылка включена' : '📅 Ежедневная рассылка выключена');
+            });
+            document.getElementById('targetRate').addEventListener('change', (e) => {
+                settings.targetRate = parseFloat(e.target.value);
+                saveAlertSettings(settings);
+                alertTriggered = false;
+                showAlert(`✅ Целевой курс установлен: ${settings.targetRate} RUB`);
+            });
         }
 
-        document.getElementById('privacyToggle').addEventListener('click', () => { privacyMode = !privacyMode; document.getElementById('privacyToggle').innerHTML = privacyMode ? '🙈' : '👁️'; if (!privacyMode) updateProfile(); });
         document.getElementById('direction').addEventListener('change', function() {
             let label = document.getElementById('amountLabel');
             if (this.value === 'cash_to_usdt') { label.innerHTML = 'Сумма (RUB)'; document.getElementById('amount').placeholder = 'От 50 000 до 50 000 000'; }
-            else { label.innerHTML = 'Сумма (USDT)'; document.getElementById('amount').placeholder = 'От 500 до 50 000 000'; }
+            else { label.innerHTML = 'Сумма (USDT)'; document.getElementById('amount').placeholder = 'От 500 до 50 000'; }
             calculate();
         });
         document.querySelectorAll('.quick-btn').forEach(btn => { btn.addEventListener('click', function() {
